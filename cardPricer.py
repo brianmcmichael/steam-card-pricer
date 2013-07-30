@@ -279,7 +279,7 @@ def upload():
 	os.system('ruby upload.rb')
 
 	# https://github.com/alloy/terminal-notifier
-	cmd = './terminal-notifier.app/Contents/MacOS/terminal-notifier'
+	cmd = './etc/terminal-notifier.app/Contents/MacOS/terminal-notifier'
 	cmd += ' -title "Steam Card Price Updater"'
 	cmd += ' -message "Update complete at %s."' % time.strftime('%l:%M%p')
 	os.system(cmd)
