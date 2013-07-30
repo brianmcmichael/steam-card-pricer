@@ -112,6 +112,14 @@ def getClasses(name, short):
   return classes
 
 ################################################################################
+# escapes a string for HTML output
+def escape(s):
+  s = html.escape(s)
+  s = s.encode('ascii', 'xmlcharrefreplace')
+  s = s.decode('ascii')
+  return s
+
+################################################################################
 # generates the HTML
 def updateSite():
   print('updating the site')
@@ -128,7 +136,7 @@ def updateSite():
   q = 'select * from cards order by cost desc limit 1'
   cur.execute(q)
   a = cur.fetchone()
-  o = o.replace('[EXPENSIVE-NAME]', html.escape(a[1]))
+  o = o.replace('[EXPENSIVE-NAME]', escape(a[1]))
   listingsBase = 'http://steamcommunity.com/market/listings/'
   o = o.replace('[EXPENSIVE-URL]', (listingsBase + a[2]))
   o = o.replace('[EXPENSIVE-PRICE]', '$%.2f' % a[3])
@@ -162,12 +170,12 @@ def updateSite():
     # print game name and link
     game = b[0]
 
-    gameEnc = html.escape(game)
+    gameEnc = escape(game)
     gameEnc = gameEnc.replace('Foil Trading Card', '(Foil)')
     gameEnc = gameEnc.replace('Trading Card', '')
 
     gameSearchEnc = game.replace('&', '%26')
-    gameSearchEnc = html.escape(gameSearchEnc)
+    gameSearchEnc = escape(gameSearchEnc)
     search = searchBase + '%22' + gameSearchEnc + '%22'
 
     table += '<tr class="%s">' % getClasses(game, (b[3] < b[2]))
