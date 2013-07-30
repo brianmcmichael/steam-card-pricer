@@ -1,0 +1,25 @@
+body { padding: 20px; color: #222; font-family: sans-serif; background: #fafafa; }
+a { text-decoration: none; }
+table { border-collapse:collapse; border: 1px solid #999; }
+tr { border-bottom: 1px solid #999; }
+th { background: #444; color: #eee; }
+tr:nth-child(odd) { background: #cce; }
+tr:nth-child(even) { background: #ddf; }
+tr:nth-child(odd).foil { background: #ccc; }
+tr:nth-child(even).foil { background: #ddd; }
+tr:nth-child(odd).bad { background: #dbb; }
+tr:nth-child(even).bad { background: #ecc; }
+td, th { padding: 5px 20px; }
+th { text-align: left; cursor: pointer; }
+.diff-up { /*background: #eaa;*/ color: #a00; }
+.diff-down { /*background: #aea;*/ color: #0a0; }
+
+.left-col, .right-col { width: 46.5%; float: left; }
+.left-col { margin-right: 5%; }
+#stats, #source, #similar { width: 100%; }
+#info { padding-top: 20px; clear: both; }
+
+@media only screen and (max-device-width: 799px), only screen and (max-width: 799px) {
+	#stats, #source { float: none; }
+	body { padding: 20px 5px; }
+}

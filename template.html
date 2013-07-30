@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Steam Trading Card Set Prices</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link rel="stylesheet" href="style.css?cb=3" type="text/css" media="screen" />
+<script src="sorttable.js?cb=1" type="text/javascript"></script>
+<script src="moment.min.js?cb=1" type="text/javascript"></script>
+<script type="text/javascript">
+
+var visibility = [];
+visibility['foil'] = true;
+visibility['discount'] = true;
+visibility['listings'] = false;
+
+function toggleVisibility(elementClass) {
+	c = document.querySelectorAll("." + elementClass);
+	for (var i = 0; i < c.length; i++) {
+		c[i].style.display = (c[i].style.display != 'none' ? 'none' : '');
+	}
+}
+
+function toggleClass(elementClass, buttonName) {
+	visibility[elementClass] = !visibility[elementClass];
+	var button = document.getElementById('btn-' + elementClass);
+	txt = 'Show ';
+	if (visibility[elementClass] == true) {
+		txt = 'Hide ';
+	}
+	button.innerHTML = txt + buttonName;
+	toggleVisibility(elementClass);
+}
+function localizeTime() {
+	var t = document.getElementById("generatedTime");
+	var nt = moment(t.innerHTML, "YYYY-MM-DD h:mmA Z");
+	t.innerHTML = nt.format('MMMM Do [at] h:mmA') + " (" + nt.fromNow() + ")";
+}
+function init() {
+	toggleVisibility('listings');
+	localizeTime();
+}
+</script>
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-16922838-1']);
+_gaq.push(['_trackPageview']);
+(function() {
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+</head>
+<body onload="init()">
+<h1>Steam Trading Card Set Prices</h1>
+
+<div id="pre-table">
+<p><em>Generated <span id="generatedTime">[TIME]</span>.</em></p>
+
+<div class="left-col">
+<div id="stats">
+<h2>Stats</h2>
+<p>Games with cards: <strong>[GAME-COUNT]</strong></p>
+<p>Total cost to craft all badges: <strong>[TOTAL]</strong></p>
+<p><em> ([TOTAL-S] &times; 5 for level 5 badges, [TOTAL-F] for foils)</em></p>
+<p>Median non-foil price: <strong>[MEDIAN-STANDARD-PRICE]</strong></p>
+<p>Median foil price: <strong>[MEDIAN-FOIL-PRICE]</strong></p>
+<p>Most expensive card: <a target="_blank" href="[EXPENSIVE-URL]">[EXPENSIVE-NAME]</a>, <strong>[EXPENSIVE-PRICE]</strong></p>
+</div>
+</div>
+
+<div class="right-col">
+<div id="source">
+<h2>Source</h2>
+<p>If you want, download <a href="v3.zip">the source</a>. It runs on Python (tested on 2.7) with no dependencies and generates the HTML in-place. It would probably run well on a dedicated server with a cron job.</p>
+</div>
+
+<div id="similar">
+<h2>See Also</h2>
+<p><a href="http://ehsankia.com/steam/emoticons/"><strong>Steam Emoticons Gallery</strong> &rarr;</a><br>Every Steam emoticon on a single page, along with market links.</p>
+<p><a href="http://www.steamcardexchange.net/"><strong>Steam Card Exchange</strong> &rarr;</a><br>Provides an automated card trading service and information on card-related goodies.</p>
+</div>
+</div>
+
+<div id="info">
+<h2>Info</h2>
+<p>Prices shown are in USD and based on the most recent available data. Rarer cards may not have been on the market recently. Games highlighted red are missing market data and show a cost extrapolated from the prices of available cards.</p>
+<p>"Discount" indicates how much money you would make selling your drops for a game, at low market price and after Valve's 15% cut, and assuming no foils.</p>
+</div>
+
+</div>
+<div id="table-controls">
+<p>
+<button id="btn-foil" onclick="toggleClass('foil', 'Foils')">Hide Foils</button>
+<button id="btn-discount" onclick="toggleClass('discount', 'Discounts')">Hide Discounts</button>
+<button id="btn-listings" onclick="toggleClass('listings', 'Listings')">Show Listings</button>
+</p>
+</div>
+<div id="table">
+[TABLE]
+</div>
+</body>
+</html>
