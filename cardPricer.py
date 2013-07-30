@@ -285,7 +285,7 @@ def upload():
 ################################################################################
 # Program entrypoint.
 if __name__ == "__main__":
-  updateData()
+  #updateData()
   updateCounts()
   updateSite()
   upload()
