@@ -274,21 +274,24 @@ def updateCounts():
 def upload():
 	print('uploading')
 
+	os.system('git commit -a -m "automatic update"')
+	os.system('git push')
+
 	# https://rubygems.org/gems/net-sftp
 	# for some reason pysftp completely didn't work
-	os.system('ruby upload.rb')
+	#os.system('ruby upload.rb')
 
 	# https://github.com/alloy/terminal-notifier
-	cmd = './etc/terminal-notifier.app/Contents/MacOS/terminal-notifier'
+	'''cmd = './etc/terminal-notifier.app/Contents/MacOS/terminal-notifier'
 	cmd += ' -title "Steam Card Price Updater"'
 	cmd += ' -message "Update complete at %s."' % time.strftime('%l:%M%p')
-	os.system(cmd)
+	os.system(cmd)'''
 
 ################################################################################
 # Program entrypoint.
 if __name__ == "__main__":
-	updateData()
-	updateCounts()
+	#updateData()
+	#updateCounts()
 	updateSite()
 	upload()
 	# you'll probably want to use something more secure or run the script on an
