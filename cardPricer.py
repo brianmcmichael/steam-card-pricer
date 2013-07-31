@@ -82,16 +82,16 @@ def updateData(specific=""):
 
       # add the game to DB if new
       q = "INSERT OR IGNORE INTO games VALUES("
-      q += "'%s'" % game
+      q += "'%s'" % game.replace("'", "''")
       q += ", 0"
       q += ")"
       cur.execute(q)
 
       # replace the card listing in DB with newest price
       q = "INSERT OR REPLACE INTO cards VALUES("
-      q += "'%s'" % game
-      q += ", '%s'" % name
-      q += ", '%s'" % url
+      q += "'%s'" % game.replace("'", "''")
+      q += ", '%s'" % name.replace("'", "''")
+      q += ", '%s'" % url.replace("'", "''")
       q += ", %.2f" % float(prices[j])
       q += ", '%s'" % str(datetime.datetime.utcnow())
       q += ", %d" % int(counts[j].replace(',', ''))
@@ -281,7 +281,7 @@ def updateCounts():
 
     # copy standard set counts to foil sets
     game = game.replace('Trading Card', 'Foil Trading Card')
-    q = "insert or replace into games values('%s', %d)" % (game, target)
+    q = "insert or replace into games values('%s', %d)" % (game.replace("'", "''"), target)
     cur.execute(q)
 
   con.commit()
