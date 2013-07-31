@@ -81,21 +81,21 @@ def updateData(specific=""):
       url = urls[j].replace('?filter=trading%20card','')
 
       # add the game to DB if new
-      q = 'INSERT OR IGNORE INTO games VALUES('
-      q += '"%s"' % game.replace('"', '\\"')
-      q += ', 0'
-      q += ')'
+      q = "INSERT OR IGNORE INTO games VALUES("
+      q += "'%s'" % game
+      q += ", 0"
+      q += ")"
       cur.execute(q)
 
       # replace the card listing in DB with newest price
-      q = 'INSERT OR REPLACE INTO cards VALUES('
-      q += '"%s"' % game.replace('"', '\\"')
-      q += ', "%s"' % name.replace('"', '\\"')
-      q += ', "%s"' % url
-      q += ', %.2f' % float(prices[j])
-      q += ', "%s"' % str(datetime.datetime.utcnow())
-      q += ', %d' % int(counts[j].replace(',', ''))
-      q += ')'
+      q = "INSERT OR REPLACE INTO cards VALUES("
+      q += "'%s'" % game
+      q += ", '%s'" % name
+      q += ", '%s'" % url
+      q += ", %.2f" % float(prices[j])
+      q += ", '%s'" % str(datetime.datetime.utcnow())
+      q += ", %d" % int(counts[j].replace(',', ''))
+      q += ")"
       try:
         cur.execute(q)
       except:
@@ -154,17 +154,17 @@ def updateSite():
   table += '<th class="listings">Listings</th></tr>\n'
 
   # query the card data
-  q = 'select'
-  q += ' g.name'
-  q += ', case when g.count = count(c.name) then sum(c.cost)'
-  q += ' else sum(c.cost) * g.count / count(c.name) end as "costforall"'
-  q += ', g.count'
-  q += ', count(c.name)'
-  q += ', sum(c.count)'
-  q += ' from games g'
-  q += ' inner join cards c on c.game = g.name'
-  q += ' group by g.name'
-  q += ' order by costforall asc;'
+  q = "select"
+  q += " g.name"
+  q += ", case when g.count = count(c.name) then sum(c.cost)"
+  q += " else sum(c.cost) * g.count / count(c.name) end as 'costforall'"
+  q += ", g.count"
+  q += ", count(c.name)"
+  q += ", sum(c.count)"
+  q += " from games g"
+  q += " inner join cards c on c.game = g.name"
+  q += " group by g.name"
+  q += " order by costforall asc;"
   cur.execute(q)
   a = cur.fetchall()
 
@@ -232,15 +232,15 @@ def updateSite():
   o = o.replace('[TOTAL]', "~${:,.2f}".format(totalFoil + totalStandard * 5))
 
   # get median prices
-  q = 'SELECT'
-  q += ' cost'
-  q += ' FROM (select * from cards'
+  q = "SELECT"
+  q += " cost"
+  q += " FROM (select * from cards"
   q += " where game not like '%Foil Trading Card%') as nf"
-  q += ' ORDER BY cost'
-  q += ' LIMIT 1'
-  q += ' OFFSET (SELECT COUNT(*) FROM ('
+  q += " ORDER BY cost"
+  q += " LIMIT 1"
+  q += " OFFSET (SELECT COUNT(*) FROM ("
   q += "select * from cards where game not like '%Foil Trading Card%') as nf" 
-  q += ') / 2'
+  q += ") / 2"
   cur.execute(q)
   a = cur.fetchone()
   o = o.replace('[MEDIAN-STANDARD-PRICE]', "${:,.2f}".format(a[0]))
@@ -267,7 +267,7 @@ def updateCounts():
 
   # selects specified number of cards for a game and also the current count
   # of cards
-  q = 'select g.name, g.count, count(c.url) from games g inner join cards c on c.game = g.name where g.name not like "%Foil Trading Card%" group by g.name'
+  q = "select g.name, g.count, count(c.url) from games g inner join cards c on c.game = g.name where g.name not like '%Foil Trading Card%' group by g.name"
   cur.execute(q)
   a = cur.fetchall()
   for b in a:
@@ -275,13 +275,13 @@ def updateCounts():
     target = b[1]
     counted = b[2]
 
-    q = 'update games set count = %d where name = "%s"' % (counted, game)
+    q = "update games set count = %d where name = '%s'" % (counted, game)
     cur.execute(q)
     target = counted
 
     # copy standard set counts to foil sets
     game = game.replace('Trading Card', 'Foil Trading Card')
-    q = 'insert or replace into games values("%s", %d)' % (game, target)
+    q = "insert or replace into games values('%s', %d)" % (game, target)
     cur.execute(q)
 
   con.commit()
