@@ -275,7 +275,7 @@ def updateCounts():
     target = b[1]
     counted = b[2]
 
-    q = "update games set count = %d where name = '%s'" % (counted, game)
+    q = "update games set count = %d where name = '%s'" % (counted, game.replace("'", "''"))
     cur.execute(q)
     target = counted
 
@@ -298,7 +298,7 @@ def upload():
 ################################################################################
 # Program entrypoint.
 if __name__ == "__main__":
-  updateData()
+  #updateData()
   updateCounts()
   updateSite()
   upload()
