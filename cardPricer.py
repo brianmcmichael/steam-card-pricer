@@ -249,7 +249,26 @@ def updateSite():
   cur.execute(q)
   a = cur.fetchone()
   o = o.replace('[MEDIAN-FOIL-PRICE]', "${:,.2f}".format(a[0]))
-  
+
+  print a
+
+  # save some numbers as historical data
+  history = "\n" + str((len(a) / 2)) + " games eligible at " + t + "\n" + "${:,.2f}".format(totalStandard) \
+            + " standard + " + "~${:,.2f}".format(totalFoil) + " foil\n" + "Cheapest set: " \
+            + '${:,.2f}'.format(a[0][1]) + " "+ str(a[0][0]) + "\n"
+  # Date, Time, Number of Games, Standard, Foil, Cheapest Set, Cheapest set price
+  historyCSV = time.strftime('%Y-%m-%d', time.gmtime()) + "," + time.strftime('%H:%M', time.gmtime()) + "," + str(
+      (len(a) / 2)) + "," + str(totalStandard) + ',' + str(totalFoil) + "," + str(a[0][0]) + ',' + str(a[0][1]) + "\n"
+
+  print(history)
+  print(historyCSV)
+  with open('historical.txt', 'a') as myfile:
+      myfile.write(history)
+      myfile.close()
+
+  with open('historical.csv', 'a') as myfile2:
+      myfile2.write(historyCSV)
+      myfile2.close()
 
   # finish up
   con.close()
